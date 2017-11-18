@@ -67,8 +67,8 @@ fun digitNumber(n: Int): Int {
     if (n==0) k=1 else {
         s = n
         while (s != 0) {
-            s = s / 10
-            k = k + 1
+            s/= 10
+            k+=1
 
         }
     }
@@ -125,7 +125,7 @@ fun lcm(m: Int, n: Int): Int {
     {
        if (s%k1==0 && s%k2==0) {
        k2=0}
-       else s=s+1
+       else s+=1
     }
   return s
 }
@@ -145,7 +145,7 @@ fun minDivisor(n: Int): Int {
        if (n%k==0) {
            s=1
        }
-       else k=k+1
+       else k+=1
     }
     return k
     /*Эту задачу можно с For решить,но думаю с while легче*/
@@ -344,7 +344,7 @@ fun fibSequenceDigit(n: Int): Int {
         var count = 0
         while (num > 0) {
             count++
-            num -= digitNumber(fib(count))
+            num -= digitNumber((count))
         }
         num = Math.abs(num)
         return fib(count) / Math.pow(10.0, num.toDouble()).toInt() % 10

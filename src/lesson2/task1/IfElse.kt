@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import com.sun.xml.internal.bind.v2.TODO
@@ -36,120 +37,117 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age%100 in 10..20 )->"$age лет"
-        (age%10 in 2..4)->"$age года"
-        (age%10 in 5..9)->"$age лет"
+        (age % 100 in 10..20) -> "$age лет"
+        (age % 10 in 2..4) -> "$age года"
+        (age % 10 in 5..9) -> "$age лет"
         else -> "$age год"
     }
+}
+
+/**
+ * Простая
+ *
+ * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
+ * и t3 часов — со скоростью v3 км/час.
+ * Определить, за какое время он одолел первую половину пути?
+ */
+fun timeForHalfWay(t1: Double, v1: Double,
+                   t2: Double, v2: Double,
+                   t3: Double, v3: Double): Double {
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    return when {
+        s == 0.0 -> 0.0
+        s > v1 * t1 + v2 * t2 -> t1 + t2 + (v3 * t3 - s) / v3
+        s > v1 * t1 -> t1 + (s - v1 * t1) / v2
+        else -> s / v1
     }
 
-    /**
-     * Простая
-     *
-     * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
-     * и t3 часов — со скоростью v3 км/час.
-     * Определить, за какое время он одолел первую половину пути?
-     */
-    fun timeForHalfWay(t1: Double, v1: Double,
-                       t2: Double, v2: Double,
-                       t3: Double, v3: Double): Double{
-        val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-        val time: Double
-        when {
-            s == 0.0 -> time = 0.0
-            s > v1*t1 + v2*t2 -> time = t1 + t2 + (v3*t3 - s) / v3
-            s > v1*t1 -> time = t1 + (s - v1*t1) / v2
-            else -> time = s / v1
-        }
-        return time
+}
+
+
+/**
+ * Простая
+ *
+ * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
+ * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
+ * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
+ * и 3, если угроза от обеих ладей.
+ * Считать, что ладьи не могут загораживать друг друга
+ */
+fun whichRookThreatens(kingX: Int, kingY: Int,
+                       rookX1: Int, rookY1: Int,
+                       rookX2: Int, rookY2: Int): Int {
+    val f1 = (kingX == rookX1 || kingY == rookY1)
+    val f2 = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        f1 && f2 -> 3
+        f1 -> 1
+        f2 -> 2
+        else -> 0
     }
+}
 
-
-
-
-    /**
-     * Простая
-     *
-     * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
-     * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
-     * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
-     * и 3, если угроза от обеих ладей.
-     * Считать, что ладьи не могут загораживать друг друга
-     */
-    fun whichRookThreatens(kingX: Int, kingY: Int,
-                           rookX1: Int, rookY1: Int,
-                           rookX2: Int, rookY2: Int): Int {
-        val f1 = (kingX == rookX1 || kingY == rookY1)
-        val f2=  (kingX == rookX2 || kingY == rookY2)
-        return when {
-            f1 && f2 -> 3
-            f1 -> 1
-            f2 -> 2
-            else -> 0
-        }
+/**
+ * Простая
+ *
+ * На шахматной доске стоят черный король и белые ладья и слон
+ * (ладья бьет по горизонтали и вертикали, слон — по диагоналям).
+ * Проверить, есть ли угроза королю и если есть, то от кого именно.
+ * Вернуть 0, если угрозы нет, 1, если угроза только от ладьи, 2, если только от слона,
+ * и 3, если угроза есть и от ладьи и от слона.
+ * Считать, что ладья и слон не могут загораживать друг друга.
+ */
+fun rookOrBishopThreatens(kingX: Int, kingY: Int,
+                          rookX: Int, rookY: Int,
+                          bishopX: Int, bishopY: Int): Int {
+    val rookdang = rookX == kingX || rookY == kingY
+    val bishopdang = Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)
+    return when {
+        rookdang && bishopdang -> 3
+        rookdang -> 1
+        bishopdang -> 2
+        else -> 0
     }
+}
 
-    /**
-     * Простая
-     *
-     * На шахматной доске стоят черный король и белые ладья и слон
-     * (ладья бьет по горизонтали и вертикали, слон — по диагоналям).
-     * Проверить, есть ли угроза королю и если есть, то от кого именно.
-     * Вернуть 0, если угрозы нет, 1, если угроза только от ладьи, 2, если только от слона,
-     * и 3, если угроза есть и от ладьи и от слона.
-     * Считать, что ладья и слон не могут загораживать друг друга.
-     */
-    fun rookOrBishopThreatens(kingX: Int, kingY: Int,
-                              rookX: Int, rookY: Int,
-                              bishopX: Int, bishopY: Int): Int {
-        val rook_dang = rookX == kingX || rookY == kingY
-        val bishop_dang = Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)
-        return when {
-            rook_dang && bishop_dang -> 3
-            rook_dang -> 1
-            bishop_dang -> 2
-            else -> 0
-        }
+/**
+ * Простая
+ *
+ * Треугольник задан длинами своих сторон a, b, c.
+ * Проверить, является ли данный треугольник остроугольным (вернуть 0),
+ * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
+ * Если такой треугольник не существует, вернуть -1.
+ */
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    /*проверим является ли треугольник остроугольным*/
+    return when {
+        (a > b + c || b > a + c || c > a + b) -> -1
+        (a * a == b * b + c * c || b * b == a * a + c * c || c * c == a * a + b * b) -> 1
+        (a * a > b * b + c * c || b * b > a * a + c * c || c * c > a * a + b * b) -> 2
+        else -> 0
     }
-
-    /**
-     * Простая
-     *
-     * Треугольник задан длинами своих сторон a, b, c.
-     * Проверить, является ли данный треугольник остроугольным (вернуть 0),
-     * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
-     * Если такой треугольник не существует, вернуть -1.
-     */
-    fun triangleKind(a: Double, b: Double, c: Double): Int {
-        /*проверим является ли треугольник остроугольным*/
-        val r:Int
-        if (a>b+c || b>a+c || c>a+b) r=-1
-        else if (a*a==b*b+c*c || b*b==a*a+c*c || c*c==a*a+b*b) r=1
-        else if (a*a>b*b+c*c || b*b>a*a+c*c || c*c>a*a+b*b) r=2
-        else r=0
-        return (r)
-    }
+}
 
 
-    /**
-     * Средняя
-     *
-     * Даны четыре точки на одной прямой: A, B, C и D.
-     * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
-     * Найти длину пересечения отрезков AB и CD.
-     * Если пересечения нет, вернуть -1.
-     */
-    fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int=
-            if (a < c) {
-                when {
-                    b < c -> -1
-                    b > d -> d - c
-                    else -> b - c
-                }
-            } else {
-                when {
-                    d < a -> -1
-                    d > b -> b - a
-                    else -> d - a
-                }
+/**
+ * Средняя
+ *
+ * Даны четыре точки на одной прямой: A, B, C и D.
+ * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
+ * Найти длину пересечения отрезков AB и CD.
+ * Если пересечения нет, вернуть -1.
+ */
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        if (a < c) {
+            when {
+                b < c -> -1
+                b > d -> d - c
+                else -> b - c
             }
+        } else {
+            when {
+                d < a -> -1
+                d > b -> b - a
+                else -> d - a
+            }
+        }

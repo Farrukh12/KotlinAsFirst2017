@@ -178,9 +178,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var s = p[0]
     if (p.isEmpty()) return 0.0
-    for (i in 1..p.size) {
+    var s = p[0]
+    for (i in 1 until p.size) {
         s += p[i] * Math.pow(x, i.toDouble())
     }
     return s
@@ -215,7 +215,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var s = mutableListOf<Int>()
+    val s = mutableListOf<Int>()
     var f = 2
     var d = n
     while (d > 1) {
@@ -241,7 +241,6 @@ fun factorizeToString(n: Int): String {
     var f = 2
     var d = n
     var k = 0
-    var m = 0
     while (d > 1) {
         if (d % f == 0) {
             k++
@@ -267,7 +266,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var f = mutableListOf<Int>()
     var s1 = n
     var d: Int = 0
-    var s2 = base
+    val s2 = base
     while (s1 > 0) {
         d = s1 % s2
         f.add(d)
@@ -287,7 +286,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var chislo = n
     var convert: String = ""
-    var osnovanie = base
+    val osnovanie = base
     val n = ('a'..'z').toList()
     while (chislo > 0) {
         if (chislo % osnovanie > 9) {
@@ -325,7 +324,20 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int=TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var s = 0.0
+    var k = 0.0
+    for (i in str.indices) {
+        if (str[i].toInt() >= 1 && str[i].toInt() <= 9) s += str[i].toInt() * Math.pow(base.toDouble(), k)
+        var d = 10
+        for (j in 'A'..'Z') {
+            if (str[i] == j) s += d * Math.pow(base.toDouble(), k)
+            d++
+        }
+        k++
+    }
+    return s.toInt()
+}
 
 /**
  * Сложная
@@ -403,4 +415,108 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var s = " "
+    var d = 0
+    var k = n
+    if (k > 100000) {
+        d = k / 100000
+        if (d == 9) s += " девьятсот "
+        if (d == 8) s += " восемьсот "
+        if (d == 7) s += " семьсот "
+        if (d == 6) s += " шестьсот "
+        if (d == 5) s += " пятьсот "
+        if (d == 4) s += " четыреста "
+        if (d == 3) s += " триста "
+        if (d == 2) s += " двести "
+        if (d == 1) s += " сто "
+        k %= 100000
+    }
+    if (k > 10000) {
+        d = k / 10000
+        if (d == 9) s += " девяносто "
+        if (d == 8) s += " восемьдесят "
+        if (d == 7) s += " семьдесят "
+        if (d == 6) s += " шестьдесят "
+        if (d == 5) s += " пятьдесят "
+        if (d == 4) s += " сорок "
+        if (d == 3) s += " тридцать "
+        if (d == 2) s += " двадцать "
+        if (d == 1) {
+            var m = (d / 1000) % 10
+            if (m == 9) s += " девятнадцать "
+            if (m == 8) s += " восемнадцать "
+            if (m == 7) s += " семнадцать "
+            if (m == 6) s += " шестнадцать "
+            if (m == 5) s += " пятнадцать "
+            if (m == 4) s += " четырнадцать "
+            if (m == 3) s += " тринадцать "
+            if (m == 2) s += " двенадцать "
+            if (m == 1) s += " одиннадцать "
+        }
+        if (d == 0) s = s
+        if (d == 0 && (k / 10000) == 0) s += " тысяч "
+        k %= 10
+    }
+    if (k > 1000) {
+        d = k / 1000
+        if (d == 9) s += " девять тысяч "
+        if (d == 8) s += " восемь тысяч"
+        if (d == 7) s += " семь тысяч "
+        if (d == 6) s += " шесть тысяч "
+        if (d == 5) s += " пять тысяч "
+        if (d == 4) s += " четыре тысячи "
+        if (d == 3) s += " три тысячи "
+        if (d == 2) s += " две тысячи "
+        if (d == 1) s += " одна тысяча "
+        k /= 10
+    }
+    if (k > 100) {
+        d = k / 100
+        if (d == 9) s += " девятьсот "
+        if (d == 8) s += " восемьсот "
+        if (d == 7) s += " семьсот "
+        if (d == 6) s += " шестьсот "
+        if (d == 5) s += " пятьсот "
+        if (d == 4) s += " четыреста "
+        if (d == 3) s += " триста "
+        if (d == 2) s += " двести "
+        if (d == 1) s += " сто "
+    }
+    if (k > 10) {
+        d = k / 10
+        if (d == 9) s += " девяносто "
+        if (d == 8) s += " восемьдесят "
+        if (d == 7) s += " семьдесят "
+        if (d == 6) s += " шестьдеят "
+        if (d == 5) s += " пятьдесят "
+        if (d == 4) s += " сорок "
+        if (d == 3) s += " тридцать "
+        if (d == 2) s += " двадцать "
+        if (d == 1) {
+            val m = d % 10
+            if (m == 9) s += " девятнадцать "
+            if (m == 8) s += " восемнадцать "
+            if (m == 7) s += " семнадцать "
+            if (m == 6) s += " шестнадцать "
+            if (m == 5) s += " пятнадцать "
+            if (m == 4) s += " четырнадцать "
+            if (m == 3) s += " тринадцать "
+            if (m == 2) s += " двенадцать "
+            if (m == 1) s += " одиннадцать "
+        }
+        k
+    }
+    if (k < 9) {
+        if (k == 9) s += " девять "
+        if (k == 8) s += " восемь "
+        if (k == 7) s += " семь "
+        if (k == 6) s += " шесть "
+        if (k == 5) s += " пять "
+        if (k == 4) s += " четыре "
+        if (k == 3) s += " три "
+        if (k == 2) s += " два "
+        if (k == 1) s += " один "
+    }
+    return s
+}

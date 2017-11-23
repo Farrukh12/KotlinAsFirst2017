@@ -209,11 +209,13 @@ class Tests {
     @Test
     @Tag("Hard")
     fun fibSequenceDigit() {
-        assertEquals(1, fibSequenceDigit(1))
-        assertEquals(1, fibSequenceDigit(2))
-        assertEquals(3, fibSequenceDigit(4))
-        assertEquals(2, fibSequenceDigit(9))
-        assertEquals(5, fibSequenceDigit(14))
-        assertEquals(2, fibSequenceDigit(20))
+        assertEquals(1, fib(1))
+        assertEquals(1, fib(2))
+        assertEquals(2, fib(3))
+        assertEquals(5, fib(5))
+        assertEquals(21, fib(8))
+        assertEquals(102334155, fib(40))
+        assertEquals(1134903170, fib(45))
+        assertEquals(1836311903, fib(46))
     }
 }

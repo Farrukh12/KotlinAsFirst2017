@@ -55,8 +55,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val o2 = pointInsideCircle(x1, y1, x2, y2, r2)
     val d = (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)))
-    if (o2 && (d + r1) <= r2) return true
-    return false
+    return ((o2 && (d + r1) <= r2))
+
 }
 
 

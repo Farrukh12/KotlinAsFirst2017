@@ -106,14 +106,12 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     val max = Math.max(n, m)
-    var min = Math.min(n, m)
-    var s: Int
+    val min = Math.min(n, m)
+    var s = max + 1
     if (max % min == 0) return max
-    s = max + 1
-    while (min > 0) {
-        if (s % max == 0 && s % min == 0) {
-            min = 0
-        } else s += 1
+    while (max > min) {
+        if (s % max == 0 && s % min ==0) break
+        s++
     }
     return s
 }
@@ -181,13 +179,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var s: Int
-    s = 0
-    for (i in 1..n) {
-        if (m <= i * i && i * i <= n) s++
-        else s = s
+    var k = 0
+    while (k >= 0) {
+       k++
+       if (Math.sqrt(m.toDouble())<=k && k<=Math.sqrt(n.toDouble())) return true
     }
-    return (s != 0)
+    return false
 }
 
 /**

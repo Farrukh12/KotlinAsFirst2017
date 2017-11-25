@@ -105,8 +105,8 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val max = Math.max(n,m)
-    var min = Math.min(n,m)
+    val max = Math.max(n, m)
+    var min = Math.min(n, m)
     var s: Int
     if (max % min == 0) return max
     s = max + 1
@@ -266,13 +266,12 @@ fun revert(n: Int): Int {
 fun isPalindrome(n: Int): Boolean {
     var s: Int
     var k: Int
-    var m: Int
-    m = n
+    var m = n
     s = 0
     while (m > 0) {
         k = m % 10
         s = 10 * s + k
-        m /=  10
+        m /= 10
     }
     return (s == n)
 }
@@ -321,11 +320,10 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var num = n
-    var count = 0
+    var cout = 0
     while (num > 0) {
-        count++
-        num -= digitNumber((count))
+        cout++
+        num -= digitNumber(cout)
     }
-    num = Math.abs(num)
-    return fib(count) / Math.pow(10.0, num.toDouble()).toInt() % 10
+    return fib(cout) / Math.pow(10.0, num.toDouble()).toInt() % 10
 }

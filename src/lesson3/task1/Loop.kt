@@ -105,15 +105,15 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var max = maxOf(m,n)
-    val min = minOf(m,n)
+    var max = maxOf(m, n)
+    val min = minOf(m, n)
     var s = 0
+    var k = 2
     if (max % min == 0) return max
-    var nok = max *min
-    while (nok > 0) {
-        if (nok % max ==0 && nok % min == 0) s = nok
-        if (nok % 2 ==0) nok /= 2
-        if (nok % 2 !=0) nok /= 3
+    var nok = max * min
+    while (nok > max) {
+        if (nok % max == 0 && nok % min == 0) s = nok
+
     }
     return s
 }
@@ -183,8 +183,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     while (k >= 0) {
-       k++
-       if (Math.sqrt(m.toDouble())<=k && k<=Math.sqrt(n.toDouble())) return true
+        k++
+        if (Math.sqrt(m.toDouble()) <= k && k <= Math.sqrt(n.toDouble())) return true
     }
     return false
 }
@@ -319,8 +319,8 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var s = ""
-    for (i in 1..n){
+    for (i in 1..n) {
         s += fib(i)
     }
-    return s[n-1].toInt()
+    return s[n - 1].toInt()
 }

@@ -157,7 +157,17 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val ifTrueStr = jumps.matches(Regex("""[\s\d-%]+"""))
+    if (!ifTrueStr) return -1
+    val containerParts = Regex("\\s+").replace(jumps,"").split(" ")
+    var answer = -1
+    for (part in containerParts){
+        if (part.matches(Regex("\\d++")))
+        answer = maxOf(answer, part.toInt())
+    }
+    return answer
+}
 
 /**
  * Сложная
@@ -169,7 +179,26 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val listJumps = jumps.split(" ")
+    var isNumber = true
+    val symbols = setOf('+', '%', '-')
+    var maxJump = -1
+    var currentJump = -1
+    for (i in listJumps) {
+        if (isNumber) {
+            if (!isNumber(i)) return -1
+            currentJump = i.toInt()
+        } else {
+            for (s in i) {
+                if (!symbols.contains(s)) return -1
+                if (s == '+') maxJump = maxOf(maxJump, currentJump)
+            }
+        }
+        isNumber = isNumber.not()
+    }
+    return maxJump
+}
 
 /**
  * Сложная
@@ -191,7 +220,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val listWords = str.split(" ")
+    var prevWord = ""
+    var prevWordPosition = -1
+    for (i in listWords) {
+        if (prevWord.toLowerCase() == i.toLowerCase()) return prevWordPosition
+        prevWordPosition += prevWord.length + 1
+        prevWord = i
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -204,7 +243,34 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    val productList = description.split("; ")
+    var maxPrice = -1.0
+    var maxPriceName = ""
+    for (product in productList) {
+        val productInfo = product.split(" ")
+        if (productInfo.size != 2) return ""
+        if (isDouble(productInfo[1])) {
+            if (productInfo[1].toDouble() > maxPrice) {
+                maxPrice = productInfo[1].toDouble()
+                maxPriceName = productInfo[0]
+            }
+        } else {
+            return ""
+        }
+    }
+    return maxPriceName
+}
+
+fun isDouble(num: String): Boolean {
+    var containDot = false
+    for (i in num) {
+        if (!(i.isDigit() || (i == '.' && !containDot))) return false
+        if (i == '.') containDot = true
+    }
+    return true
+}
 
 /**
  * Сложная
@@ -217,7 +283,23 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val romans = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val arab = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    var number = StringBuilder(roman)
+    var count = 0
+    var result = 0
+    while (number.isNotEmpty()) {
+        if (number.indexOf(romans[count]) == 0) {
+            result += arab[count]
+            number.delete(0, romans[count].length)
+        } else {
+            count++
+        }
+        if (count == romans.size) return -1
+    }
+    return result
+}
 
 /**
  * Очень сложная

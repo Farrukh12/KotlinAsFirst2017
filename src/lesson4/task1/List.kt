@@ -244,14 +244,12 @@ fun factorizeToString(n: Int): String {
     var d = n
     var k = 0
     while (d > 1) {
-        if (d % f == 0) {
+        while (d % f == 0) {
             k++
             if (k == 1) s += "$f"
             else s += "*$f"
             d /= f
-            f = 2
         }
-
         f++
     }
     return s
@@ -265,9 +263,10 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var f = mutableListOf<Int>()
+    val f = mutableListOf<Int>()
     var s1 = n
-    var d: Int = 0
+    if (s1 == 0) f.add(0)
+    var d: Int
     val s2 = base
     while (s1 > 0) {
         d = s1 % s2
@@ -287,6 +286,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var chislo = n
+    if (n == 0 ) return "0"
     var convert: String = ""
     val osnovanie = base
     val n = ('a'..'z').toList()

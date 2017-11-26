@@ -162,6 +162,7 @@ class Tests {
         assertEquals("2*3*3*19", factorizeToString(342))
         assertEquals("7*7*31*31*151*151", factorizeToString(1073676289))
         assertEquals("1073676287", factorizeToString(1073676287))
+        assertEquals("2*2*2*3*3*3*3*3*251", factorizeToString( 487944))
         assertEquals(Int.MAX_VALUE.toString(), factorizeToString(Int.MAX_VALUE))
     }
 

@@ -105,13 +105,15 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val max = Math.max(n, m)
-    val min = Math.min(n, m)
-    var s = max + 1
+    var max = maxOf(m,n)
+    val min = minOf(m,n)
+    var s = 0
     if (max % min == 0) return max
-    while (max > min) {
-        if (s % max == 0 && s % min ==0) break
-        s++
+    var nok = max *min
+    while (nok > 0) {
+        if (nok % max ==0 && nok % min == 0) s = nok
+        if (nok % 2 ==0) nok /= 2
+        if (nok % 2 !=0) nok /= 3
     }
     return s
 }
@@ -316,11 +318,9 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var num = n
-    var cout = 0
-    while (num > 0) {
-        cout++
-        num -= digitNumber(cout)
+    var s = ""
+    for (i in 1..n){
+        s += fib(i)
     }
-    return fib(cout) / Math.pow(10.0, num.toDouble()).toInt() % 10
+    return s[n-1].toInt()
 }

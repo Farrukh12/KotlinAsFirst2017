@@ -544,5 +544,5 @@ fun russian(n: Int): String {
         if (k == 2) s += "два"
         if (k == 1) s += "один"
     }
-    return s
+    return s.trim()
 }

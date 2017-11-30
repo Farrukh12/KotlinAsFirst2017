@@ -223,10 +223,9 @@ fun factorize(n: Int): List<Int> {
     while (d > 1) {
         if (d % f == 0) {
             s.add(f)
-            d = d / f
-            f = 2
+            d /= f
+            f = 1
         }
-
         f++
     }
     return s
@@ -286,7 +285,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var chislo = n
-    if (n == 0 ) return "0"
+    if (n == 0) return "0"
     var convert: String = ""
     val osnovanie = base
     val n = ('a'..'z').toList()
@@ -327,9 +326,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var m = str.reversed()
+    val m = str.reversed()
     var s = 0
-    var f = 0
     for ((index, element) in m.withIndex()) {
         var k1 = 1
         for (j in '1'..'9') {
@@ -449,7 +447,7 @@ fun russian(n: Int): String {
     /*99 999*/
     if (k > 10000) {
         d = k / 10000
-        if (s.isEmpty()) s+=""
+        if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "
         if (d == 9) s += "девяносто"
         if (d == 8) s += "восемьдесят"
@@ -479,11 +477,11 @@ fun russian(n: Int): String {
     /* 9 999*/
     if (k > 1000) {
         d = k / 1000
-        if (s.isEmpty()) s+=""
+        if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "
         if (d == 9) s += "девять тысяч"
         if (d == 8) s += "восемь тысяч"
-        if (d == 7) s += "семь тысяч "
+        if (d == 7) s += "семь тысяч"
         if (d == 6) s += "шесть тысяч"
         if (d == 5) s += "пять тысяч"
         if (d == 4) s += "четыре тысячи"
@@ -494,7 +492,7 @@ fun russian(n: Int): String {
     }
     if (k > 100) {
         d = k / 100
-        if (s.isEmpty()) s+=""
+        if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "
         if (d == 9) s += "девятьсот"
         if (d == 8) s += "восемьсот"
@@ -509,7 +507,7 @@ fun russian(n: Int): String {
     }
     if (k > 10) {
         d = k / 10
-        if (s.isEmpty()) s+=""
+        if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "
         if (d == 9) s += "девяносто"
         if (d == 8) s += "восемьдесят"
@@ -536,7 +534,7 @@ fun russian(n: Int): String {
         k %= 10
     }
     if ((k <= 9)) {
-        if (s.isEmpty()) s+=""
+        if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "
         if (k == 9) s += "девять"
         if (k == 8) s += "восемь"

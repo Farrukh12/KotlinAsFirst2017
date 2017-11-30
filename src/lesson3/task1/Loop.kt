@@ -186,7 +186,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     while (k >= 0) {
         k++
-        if (Math.sqrt(m.toDouble()) <= k && k <= Math.sqrt(n.toDouble())) return true
+        if(Math.sqrt(m.toDouble()) <= k && k <= Math.sqrt(n.toDouble()))return true
     }
     return false
 }

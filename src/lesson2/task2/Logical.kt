@@ -45,7 +45,6 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 
 /**
  * Средняя
- *
  * Проверить, лежит ли окружность с центром в (x1, y1) и радиусом r1 целиком внутри
  * окружности с центром в (x2, y2) и радиусом r2.
  * pointInsideCircle(x1, y1, x2, y2, r2) && (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2
@@ -56,7 +55,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
     val o2 = pointInsideCircle(x1, y1, x2, y2, r2)
     val d = (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)))
     return o2 && (d + r1) <= r2
-
 }
 
 

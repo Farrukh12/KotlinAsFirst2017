@@ -436,8 +436,7 @@ fun russian(n: Int): String {
         if (d == 3) s += "триста"
         if (d == 2) s += "двести"
         if (d == 1) s += "сто"
-
-        if (((k / 1000) % 10 == 0 && (k / 100) % 10 == 0)) {
+        if ((k / 1000) % 10 == 0 && (k / 10000) % 10 == 0) {
             if (s.isEmpty()) s += ""
             else if (s.isNotEmpty()) s += " "
             s += "тысяч"
@@ -472,6 +471,7 @@ fun russian(n: Int): String {
             k %= 1000
         }
         if (d == 0) s = s
+        if (d > 1 && (k / 1000) % 10 == 0) s += "тысяч"
         k %= 10000
     }
     /* 9 999*/

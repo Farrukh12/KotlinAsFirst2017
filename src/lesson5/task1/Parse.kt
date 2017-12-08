@@ -68,9 +68,9 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val date = str.split(" ")
-    if (date.size != 3) return ""
-    val month = when (date[1]) {
+    val changes = str.split(" ")
+    if (changes.size != 3) return ""
+    val month = when (changes[1]) {
         "января" -> "01"
         "февраля" -> "02"
         "марта" -> "03"
@@ -86,7 +86,7 @@ fun dateStrToDigit(str: String): String {
         else -> ""
     }
     if (month == "") return ""
-    return "${twoDigitStr(date[0].toInt())}.$month.${date[2]}"
+    return "${twoDigitStr(changes[0].toInt())}.$month.${changes[2]}"
 }
 
 /**
@@ -132,15 +132,15 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
-    val trPhone = StringBuilder(phone.trim())
-    var result = StringBuilder()
-    if (trPhone[0] == '+') {
-        if (trPhone.length == 1) return ""
-        result.append('+')
-        trPhone.deleteCharAt(0)
-    }
     val s = setOf(' ', '-', '(', ')')
-    for (i in trPhone) {
+    val result = StringBuilder()
+    val list = StringBuilder(phone.trim())
+    if (list[0] == '+') {
+        if (list.length == 1) return ""
+        result.append('+')
+        list.deleteCharAt(0)
+    }
+    for (i in list) {
         if (!(i.isDigit() || s.contains(i))) return ""
         if (i.isDigit()) result.append(i)
     }
@@ -158,50 +158,38 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val ifTrueStr = jumps.matches(Regex("""[\s\d-%]+"""))
-    if (!ifTrueStr) return -1
-    val containerParts = Regex("\\s+").replace(jumps,"").split(" ")
-    var answer = -1
-    for (part in containerParts){
-        if (part.matches(Regex("\\d++")))
-        answer = maxOf(answer, part.toInt())
+    val jump = StringBuilder(jumps)
+    val list = StringBuilder()
+    val symbol = setOf<Char>(' ', '%', '-')
+    try {
+        for (i in jump) {
+            if (!symbol.contains(i)) list.append(i)
+            if (symbol.contains(i)) list.append(" ")
+            if (!i.isDigit() && i == '+') return -1
+        }
+        val answer = list.trim().split(" ")
+        return answer.max()!!.toInt()
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    return answer
 }
+
 
 /**
  * Сложная
  *
- * Результаты спортсмена на соревнованиях в прыжках в высоту представлены строкой вида
+ * Результаты спортсмена на соревнованиях в пржках в высоту представлены строкой вида
  * "220 + 224 %+ 228 %- 230 + 232 %%- 234 %".
  * Здесь + соответствует удачной попытке, % неудачной, - пропущенной.
  * Высота и соответствующие ей попытки разделяются пробелом.
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
-    val listJumps = jumps.split(" ")
-    var isNumber = true
-    val symbols = setOf('+', '%', '-')
-    var maxJump = -1
-    var currentJump = -1
-    for (i in listJumps) {
-        if (isNumber) {
-            if (!isNumber(i)) return -1
-            currentJump = i.toInt()
-        } else {
-            for (s in i) {
-                if (!symbols.contains(s)) return -1
-                if (s == '+') maxJump = maxOf(maxJump, currentJump)
-            }
-        }
-        isNumber = isNumber.not()
-    }
-    return maxJump
-}
+fun bestHighJump(jumps: String): StringBuilder = TODO()
+
 
 /**
- * Сложная
+ * Сложнаяs
  *
  * В строке представлено выражение вида "2 + 31 - 40 + 13",
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
@@ -221,15 +209,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val listWords = str.split(" ")
-    var prevWord = ""
-    var prevWordPosition = -1
-    for (i in listWords) {
-        if (prevWord.toLowerCase() == i.toLowerCase()) return prevWordPosition
-        prevWordPosition += prevWord.length + 1
-        prevWord = i
+    val list = str.split(" ")
+    var prev = ""
+    var WordPosition = -1
+    for (i in list) {
+        if (prev.toLowerCase() == i.toLowerCase()) return WordPosition
+        WordPosition += prev.length + 1
+        prev = i
     }
     return -1
+
 }
 
 /**
@@ -245,22 +234,22 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
-    val productList = description.split("; ")
-    var maxPrice = -1.0
-    var maxPriceName = ""
-    for (product in productList) {
+    val product = description.split("; ")
+    var max1 = -1.0
+    var max2 = ""
+    for (product in product) {
         val productInfo = product.split(" ")
         if (productInfo.size != 2) return ""
         if (isDouble(productInfo[1])) {
-            if (productInfo[1].toDouble() > maxPrice) {
-                maxPrice = productInfo[1].toDouble()
-                maxPriceName = productInfo[0]
+            if (productInfo[1].toDouble() > max1) {
+                max1 = productInfo[1].toDouble()
+                max2 = productInfo[0]
             }
         } else {
             return ""
         }
     }
-    return maxPriceName
+    return max2
 }
 
 fun isDouble(num: String): Boolean {
@@ -284,21 +273,21 @@ fun isDouble(num: String): Boolean {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    val romans = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
-    val arab = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    var number = StringBuilder(roman)
-    var count = 0
-    var result = 0
+    val list1 = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val list2 = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val number = StringBuilder(roman)
+    var index1 = 0
+    var answer = 0
     while (number.isNotEmpty()) {
-        if (number.indexOf(romans[count]) == 0) {
-            result += arab[count]
-            number.delete(0, romans[count].length)
+        if (number.indexOf(list1[index1]) == 0) {
+            answer += list2[index1]
+            number.delete(0, list1[index1].length)
         } else {
-            count++
+            index1++
         }
-        if (count == romans.size) return -1
+        if (index1 == list1.size) return -1
     }
-    return result
+    return answer
 }
 
 /**

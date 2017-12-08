@@ -181,9 +181,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     if (p.isEmpty()) return 0.0
     var s = p[0]
     for (i in 1 until p.size) {
-        s += p[i] * Math.pow(x,
-
-                i.toDouble())
+        s += p[i] * Math.pow(x, i.toDouble())
     }
     return s
 }
@@ -284,19 +282,19 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var chislo = n
+    var string = n
     if (n == 0) return "0"
     var convert: String = ""
-    val osnovanie = base
+    val changebase = base
     val n = ('a'..'z').toList()
-    while (chislo > 0) {
-        if (chislo % osnovanie > 9) {
+    while (string > 0) {
+        if (string % changebase > 9) {
             for (i in 10..35) {
-                if (chislo % osnovanie == i) convert += n[i - 10]
+                if (string % changebase == i) convert += n[i - 10]
             }
         } else
-            convert += chislo % osnovanie
-        chislo /= osnovanie
+            convert += string % changebase
+        string /= changebase
     }
     return convert.reversed()
 }
@@ -390,7 +388,9 @@ fun roman(n: Int): String {
             for (i in 1..s - 5) result += "X"
         } else if (s == 4) result += "XL"
         else if (s >= 1) {
-            for (i in 1..s) result += "X"
+            for (i in 1..s) {
+                result += "X"
+            }
         }
         d %= 10
     }
@@ -402,8 +402,9 @@ fun roman(n: Int): String {
             for (i in 1..s - 5) result += "I"
         } else if (s == 4) result += "IV"
         else if (s >= 1) {
-            for (i in 1..s)
+            for (i in 1..s) {
                 result += "I"
+            }
         }
 
     }

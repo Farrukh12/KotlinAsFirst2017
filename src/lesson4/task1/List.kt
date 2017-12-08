@@ -506,7 +506,7 @@ fun russian(n: Int): String {
         if (d == 1) s += "сто"
         k %= 100
     }
-    if (k > 10) {
+    if (k >= 10) {
         d = k / 10
         if (s.isEmpty()) s += ""
         else if (s.isNotEmpty()) s += " "

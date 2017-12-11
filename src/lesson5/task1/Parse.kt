@@ -99,23 +99,21 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val date = digital.split(".")
     if (date.size != 3) return ""
-    val month = when (date[1]) {
-        "01" -> "января"
-        "02" -> "февраля"
-        "03" -> "марта"
-        "04" -> "апреля"
-        "05" -> "мая"
-        "06" -> "июня"
-        "07" -> "июля"
-        "08" -> "августа"
-        "09" -> "сентября"
-        "10" -> "октября"
-        "11" -> "ноября"
-        "12" -> "декабря"
-        else -> ""
-    }
-    if (month == "") return ""
-    return "${date[0].toInt()} $month ${date[2]}"
+    var result = ""
+    if (date[1] == "01") result += "января"
+    if (date[1] == "02") result += "февраля"
+    if (date[1] == "03") result += "марта"
+    if (date[1] == "04") result += "апреля"
+    if (date[1] == "05") result += "мая"
+    if (date[1] == "06") result += "июня"
+    if (date[1] == "07") result += "июля"
+    if (date[1] == "08") result += "августа"
+    if (date[1] == "09") result += "сентября"
+    if (date[1] == "10") result += "октября"
+    if (date[1] == "11") result += "ноября"
+    if (date[1] == "12") result += "декабря"
+    if (date[1] == "") return ""
+    return "${date[0].toInt()} $result ${date[2]}"
 }
 
 /**
@@ -141,8 +139,9 @@ fun flattenPhoneNumber(phone: String): String {
         list.deleteCharAt(0)
     }
     for (i in list) {
-        if (!(i.isDigit() || s.contains(i))) return ""
         if (i.isDigit()) result.append(i)
+        if (!(i.isDigit() || s.contains(i))) return ""
+
     }
     return result.toString()
 }
@@ -185,7 +184,14 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): StringBuilder = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    val list = mutableListOf<String>()
+    for (i in 1..parts.size - 1 step 2) {
+        if (parts[i] == "+") list.add(parts[i - 1])
+    }
+    return list.map { it.toInt() }.max() ?: -1
+}
 
 
 /**
@@ -197,7 +203,22 @@ fun bestHighJump(jumps: String): StringBuilder = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    if (parts.size % 2 == 0) throw IllegalArgumentException()
+    try {
+        var answer = parts[0].toInt()
+        for (i in 1..parts.size - 2 step 2) {
+            val f = parts[i + 1].toInt()
+            if (parts[i] == "+") answer += f
+            if (parts[i] == "-") answer -= f
+            if (parts[i] != "+" && parts[i] != "-") throw IllegalArgumentException()
+        }
+        return answer
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная
@@ -211,10 +232,10 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val list = str.split(" ")
     var prev = ""
-    var WordPosition = -1
+    var word = -1
     for (i in list) {
-        if (prev.toLowerCase() == i.toLowerCase()) return WordPosition
-        WordPosition += prev.length + 1
+        if (prev.toLowerCase() == i.toLowerCase()) return word
+        word += prev.length + 1
         prev = i
     }
     return -1
@@ -232,34 +253,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    if (description.isEmpty()) return ""
-    val product = description.split("; ")
-    var max1 = -1.0
-    var max2 = ""
-    for (product in product) {
-        val productInfo = product.split(" ")
-        if (productInfo.size != 2) return ""
-        if (isDouble(productInfo[1])) {
-            if (productInfo[1].toDouble() > max1) {
-                max1 = productInfo[1].toDouble()
-                max2 = productInfo[0]
-            }
-        } else {
-            return ""
-        }
-    }
-    return max2
-}
-
-fun isDouble(num: String): Boolean {
-    var containDot = false
-    for (i in num) {
-        if (!(i.isDigit() || (i == '.' && !containDot))) return false
-        if (i == '.') containDot = true
-    }
-    return true
-}
+fun mostExpensive(description: String): String = TODO()
 
 /**
  * Сложная

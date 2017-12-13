@@ -296,7 +296,6 @@ fun squareSequenceDigit(n: Int): Int {
     num = Math.abs(num)
     return count * count / Math.pow(10.0, num.toDouble()).toInt() % 10
 }
-
 /**
  * Сложная
  *
@@ -304,4 +303,18 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): String {
+    var fib1 = 1
+    var fib2 = 1
+    var fib3 = 0
+    var k = 2
+    var result = "11"
+    for (i in 3..n){
+        k++
+        fib3 += fib1+fib2
+        result += fib3
+        fib1 = fib2
+        fib2 = fib3
+    }
+    return result[k-1].toString()
+}

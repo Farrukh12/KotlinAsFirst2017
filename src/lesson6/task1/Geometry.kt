@@ -2,7 +2,6 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-
 /**
  * Точка на плоскости
  */
@@ -72,14 +71,17 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val f = this.center.distance(other.center) - this.radius - other.radius
+        return if (f < 0.0) 0.0 else f
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = this.center.distance(p) <= radius
 }
 
 /**
@@ -146,15 +148,14 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = lineBySegment(Segment(a,b))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
-
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
 /**
  * Сложная
  *

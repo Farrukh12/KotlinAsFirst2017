@@ -195,7 +195,7 @@ fun bestHighJump(jumps: String): Int {
 
 
 /**
- * Сложнаяs
+ * Сложная
  *
  * В строке представлено выражение вида "2 + 31 - 40 + 13",
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
@@ -232,10 +232,10 @@ fun plusMinus(expression: String): Int {
 fun firstDuplicateIndex(str: String): Int {
     val list = str.split(" ")
     var prev = ""
-    var word = -1
+    var index = -1
     for (i in list) {
-        if (prev.toLowerCase() == i.toLowerCase()) return word
-        word += prev.length + 1
+        if (prev.toLowerCase() == i.toLowerCase()) return index
+        index += prev.length + 1
         prev = i
     }
     return -1
@@ -253,7 +253,27 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description == "") return ""
+    val list = description.split("; ")
+    val newlist = mutableListOf<String>()
+    var result = -1.0
+    var answer = ""
+    try {
+        for (i in list) {
+            val price = i.split(" ")
+            for ((j, e) in price.withIndex()) {
+                if (j == 1) {
+                    result = maxOf(e.toDouble(),result)
+                }
+                if (result.toString() in i) answer = price[0]
+            }
+        }
+        return answer
+    } catch (e:NumberFormatException){
+        return  ""
+    }
+}
 
 /**
  * Сложная
@@ -266,23 +286,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int {
-    val list1 = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
-    val list2 = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val number = StringBuilder(roman)
-    var index1 = 0
-    var answer = 0
-    while (number.isNotEmpty()) {
-        if (number.indexOf(list1[index1]) == 0) {
-            answer += list2[index1]
-            number.delete(0, list1[index1].length)
-        } else {
-            index1++
-        }
-        if (index1 == list1.size) return -1
-    }
-    return answer
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная

@@ -305,6 +305,7 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): String {
    var k = 0
    var fib1 = 0
+
    var i = 1
     while(k < n){
         fib1 = fib(i)

@@ -70,6 +70,7 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val changes = str.split(" ")
     if (changes.size != 3) return ""
+    val result = ""
     val month = when (changes[1]) {
         "января" -> "01"
         "февраля" -> "02"
@@ -130,6 +131,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
+    if (phone == " ") return  ""
     val s = setOf(' ', '-', '(', ')')
     val result = StringBuilder()
     val list = StringBuilder(phone.trim())
@@ -187,8 +189,8 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     val list = mutableListOf<String>()
-    for (i in 1..parts.size - 1 step 2) {
-        if (parts[i] == "+") list.add(parts[i - 1])
+    for (i in 1..parts.size-1  step 2) {
+        if (parts[i] == "+") list.add(parts[i-1])
     }
     return list.map { it.toInt() }.max() ?: -1
 }

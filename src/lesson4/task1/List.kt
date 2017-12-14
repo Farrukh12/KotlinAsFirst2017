@@ -2,6 +2,7 @@
 
 package lesson4.task1
 
+import com.sun.corba.se.impl.oa.toa.TOAFactory
 import com.sun.org.apache.bcel.internal.generic.RETURN
 import lesson1.task1.discriminant
 import lesson5.task1.firstDuplicateIndex
@@ -364,17 +365,19 @@ fun roman(n: Int): String {
     //*467
     if (d >= 100) {
         s = d / 100
-        if (s == 9) result += "CM"
-        else if (s >= 5) {
-            result += "D"
-            for (i in 1..s - 5) {
-                result += "C"
+        when {
+            s == 9 -> result += "CM"
+            s >= 5 -> {
+                result += "D"
+                for (i in 1..s - 5) {
+                    result += "C"
+                }
             }
-        } else if (s == 4) {
-            result += "CD"
-        } else if (s >= 1) {
-            for (i in 1..s) {
-                result += "C"
+            s == 4 -> result += "CD"
+            s >= 1 -> {
+                for (i in 1..s) {
+                    result += "C"
+                }
 
             }
         }
@@ -382,31 +385,40 @@ fun roman(n: Int): String {
     }
     if (d >= 10) {
         s = d / 10
-        if (s == 9) result += "XC"
-        else if (s >= 5) {
-            result += "L"
-            for (i in 1..s - 5) result += "X"
-        } else if (s == 4) result += "XL"
-        else if (s >= 1) {
-            for (i in 1..s) {
-                result += "X"
+        when {
+            s == 9 -> result += "XC"
+            s >= 5 -> {
+                result += "L"
+                for (i in 1..s - 5) {
+                    result += "X"
+                }
+            }
+            s == 4 -> result += "XL"
+            s >= 1 -> {
+                for (i in 1..s) {
+                    result += "X"
+                }
             }
         }
         d %= 10
     }
     if (d >= 1) {
         s = d
-        if (s == 9) result += "IX"
-        else if (s >= 5) {
-            result += "V"
-            for (i in 1..s - 5) result += "I"
-        } else if (s == 4) result += "IV"
-        else if (s >= 1) {
-            for (i in 1..s) {
-                result += "I"
+        when {
+            s == 9 -> result += "IX"
+            s >= 5 -> {
+                result += "V"
+                for (i in 1..s - 5) {
+                    result += "I"
+                }
+            }
+            s == 4 -> result += "IV"
+            s >= 1 -> {
+                for (i in 1..s) {
+                    result += "I"
+                }
             }
         }
-
     }
     return result
 }
@@ -418,10 +430,50 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+/**
+ *  var result = StringBuilder()
+/*Найдем цифры число n.Например 123456*/
+val r1 = n % 10 /*r1 = 6*/
+val r2 = n / 10 % 10 /*r2 = 5*/
+val r3 = n / 100 % 10 /*r3 = 4*/
+val r4 = n / 1000 % 10 /*r4 = 3*/
+val r5 = n / 10000 % 10 /*r5 = 2*/
+val r6 = n / 100000 % 10 /*r6 = 1*/
+/*cоздаем списки */
+val list1 = listOf("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+val list2 = listOf("десять ", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать",
+"шестнадцать ", "семнадцать ", "восемнадцать", "девятнадцать ")
+val list3 = listOf("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ",
+"cемьдесят ", "восемьдесят ", "девяносто")
+val list4 = listOf("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ")
+val list5 = listOf("тысяч ", "тысяча ", "тысячи ")
+val list6 = listOf("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+/*Начнем проверят цифры и используем индекси листов.*/
+if (r6 != 0) result.append(list4[r6])
+if (r5 != 0) {
+if (r5 == 1) result.append(list2[r4])
+else {
+result.append(list3[r5])
+if (r4 != 0) result.append(list6[r4])
+}
+}
+if (r5 == 0 && r4 != 0) result.append(list6[r4])
+if (r6 != 0 || r5 != 0 || r4 != 0) {
+if (r5 != 1 && r4 == 1) result.append(list5[1])
+else if (r5 != 1 && r4 in 1..4) result.append(list5[2])
+else result.append(list5[0])
+}
+if (r3 != 0) result.append(list4[r3])
+if (r2 != 0 && r2 == 1) result.append(list2[r1])
+else result.append(list3[r2])
+if (r1 != 0 && r2 != 1) result.append(list1[r1])
+return result.trim().toString()
+ не знаю почему-то на надо вывести "триста семьдесят пять" программа возвращает "триста семьдесят пять",но
+ опять не работает хотя в конце eсть trim()
+ */
 fun russian(n: Int): String {
     var s = ""
     var d = 0
-    var kol = 0
     var k = n
     /*999 999*/
     if (k > 100000) {

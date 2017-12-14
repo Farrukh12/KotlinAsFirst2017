@@ -64,7 +64,7 @@ class Triangle private constructor(private val points: Set<Point>) {
  */
 data class Circle(val center: Point, val radius: Double) {
     /**
-     * Простая
+     * Простаяxzcz
      *
      * Рассчитать расстояние между двумя окружностями.
      * Расстояние между непересекающимися окружностями рассчитывается как
@@ -73,7 +73,8 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun distance(other: Circle): Double {
         val f = this.center.distance(other.center) - this.radius - other.radius
-        return if (f < 0.0) 0.0 else f
+        if (f < 0) return 0.0
+        return f
     }
 
     /**
@@ -101,7 +102,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment= TODO()
 
 /**
  * Простая

@@ -125,6 +125,7 @@ fun diameter(vararg points: Point): Segment{
  */
 fun circleByDiameter(diameter: Segment): Circle = TODO()
 
+
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)

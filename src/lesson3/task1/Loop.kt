@@ -305,11 +305,11 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): String {
    var k = 0
    var fib1 = 0
-    var i = 1
+    var i = 0
     while(k < n){
         fib1 = fib(i)
         k += digitNumber(fib1)
         i++
     }
-    return (fib1 / Math.pow(10.0,k-n.toDouble()) % 10).toString()
+    return fib1.toString()
 }

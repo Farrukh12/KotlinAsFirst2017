@@ -88,7 +88,7 @@ fun fib(n: Int): Int {
     if (n == 1) return 1
     if (n == 2) return 1
     for (i in 3..n) {
-        var fib3 = fib1 + fib2
+        val fib3 = fib1 + fib2
         fib1 = fib2
         fib2 = fib3
     }
@@ -105,7 +105,6 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var max = maxOf(m, n)
     var min = minOf(m, n)
-    var k = 2
     if (max % min == 0) return max
     while (max % min != 0){
         val min1 = min
@@ -302,14 +301,4 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): String {
-   var k = 0
-   var fib1 = 0
-    var i = 0
-    while(k < n){
-        fib1 = fib(i)
-        k += digitNumber(fib1)
-        i++
-    }
-    return fib1.toString()
-}
+fun fibSequenceDigit(n: Int): String = TODO()

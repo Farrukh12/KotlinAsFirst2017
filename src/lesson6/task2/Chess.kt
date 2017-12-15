@@ -36,7 +36,7 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Nothing = TODO()
+fun square(notation: String): Square = TODO()
 
 /**
  * Простая

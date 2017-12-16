@@ -12,6 +12,7 @@ data class Square(val column: Int, val row: Int) {
      * Пример
      *
      * Возвращает true, если клетка находится в пределах доски
+
      */
     fun inside(): Boolean = column in 1..8 && row in 1..8
 

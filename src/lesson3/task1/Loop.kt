@@ -256,10 +256,8 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    if (n.toString() == n.toString().reversed()) return true
-    return false
-}
+fun isPalindrome(n: Int): Boolean = n.toString() == n.toString().reversed()
+
 
 /**
  * Средняя

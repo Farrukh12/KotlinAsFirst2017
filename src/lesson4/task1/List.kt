@@ -126,12 +126,12 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var s = 0.0
+    var sum = 0.0
     if (list.isEmpty()) return 0.0
     for (element in list) {
-        s += element
+        sum += element
     }
-    return s / list.size
+    return sum / list.size
 }
 
 /**
@@ -143,14 +143,13 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var s = 0.0
-    var c = 0.0
+    var sum = 0.0
     for (element in list) {
-        s += element
+        sum += element
     }
-    c = s / list.size
+    val average = sum / list.size
     for (i in 0 until list.size) {
-        list[i] = list[i] - c
+        list[i] = list[i] - average
     }
     return list
 }
@@ -216,18 +215,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val s = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     var f = 2
-    var d = n
-    while (d > 1) {
-        if (d % f == 0) {
-            s.add(f)
-            d /= f
+    var number = n
+    while (number > 1) {
+        if (number % f == 0) {
+            result.add(f)
+            number /= f
             f = 1
         }
         f++
     }
-    return s
+    return result
 }
 
 /**
@@ -237,20 +236,20 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var s = ""
+    var result = ""
     var f = 2
-    var d = n
+    var number = n
     var k = 0
-    while (d > 1) {
-        while (d % f == 0) {
+    while (number > 1) {
+        while (number % f == 0) {
             k++
-            if (k == 1) s += "$f"
-            else s += "*$f"
-            d /= f
+            if (k == 1) result += "$f"
+            else result += "*$f"
+            number /= f
         }
         f++
     }
-    return s
+    return result
 }
 
 /**
@@ -261,17 +260,17 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    val f = mutableListOf<Int>()
-    var s1 = n
-    if (s1 == 0) f.add(0)
-    var d: Int
+    val result = mutableListOf<Int>()
+    var number = n
+    if (number == 0) result.add(0)
+    var remainder: Int
     val s2 = base
-    while (s1 > 0) {
-        d = s1 % s2
-        f.add(d)
-        s1 /= s2
+    while (number > 0) {
+        remainder = number % s2
+        result.add(remainder)
+        number /= s2
     }
-    return f.reversed()
+    return result.reversed()
 }
 
 /**
@@ -283,7 +282,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var string = n
+    var string = n /* Под переменной string задаем число n*/
     if (n == 0) return "0"
     var convert: String = ""
     val changebase = base
@@ -308,11 +307,11 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var s = 0
+    var result = 0
     for (i in 0 until digits.size) {
-        s = s * base + digits[i]
+        result = result * base + digits[i]
     }
-    return s
+    return result
 }
 
 /**
@@ -325,21 +324,21 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val m = str.reversed()
-    var s = 0
-    for ((index, element) in m.withIndex()) {
-        var k1 = 1
+    val number = str.reversed()
+    var result = 0
+    for ((index, element) in number.withIndex()) {
+        var k1 = 1 /*k1: 1, 2, 3, 4, 5, 6, 7, 8, 9*/
         for (j in '1'..'9') {
-            if (m[index] == j) s += k1 * Math.pow(base.toDouble(), index.toDouble()).toInt()
+            if (number[index] == j) result += k1 * Math.pow(base.toDouble(), index.toDouble()).toInt()
             k1++
         }
-        var k2 = 10
-        for (d in 'a'..'z') {
-            if (m[index] == d) s += k2 * Math.pow(base.toDouble(), index.toDouble()).toInt()
+        var k2 = 10 /*k2 : a = 10, b = 11, c = 12, d = 13, e = 14, f = 15*/
+        for (char in 'a'..'z') {
+            if (number[index] == char) result += k2 * Math.pow(base.toDouble(), index.toDouble()).toInt()
             k2++
         }
     }
-    return s
+    return result
 }
 
 /**
@@ -351,70 +350,71 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var d = n
-    var s = 0
+    /*В переменную d в задаем n, a*/
+    var roman = n
+    var digit: Int
     var result = ""
     //*4567
-    if (d >= 1000) {
-        s = d / 1000
-        for (i in 1..s) {
+    if (roman >= 1000) {
+        digit = roman / 1000
+        for (i in 1..digit) {
             result += "M"
         }
-        d %= 1000
+        roman %= 1000
     }
     //*467
-    if (d >= 100) {
-        s = d / 100
+    if (roman >= 100) {
+        digit = roman / 100
         when {
-            s == 9 -> result += "CM"
-            s >= 5 -> {
+            digit == 9 -> result += "CM"
+            digit >= 5 -> {
                 result += "D"
-                for (i in 1..s - 5) {
+                for (i in 1..digit - 5) {
                     result += "C"
                 }
             }
-            s == 4 -> result += "CD"
-            s >= 1 -> {
-                for (i in 1..s) {
+            digit == 4 -> result += "CD"
+            digit >= 1 -> {
+                for (i in 1..digit) {
                     result += "C"
                 }
 
             }
         }
-        d %= 100
+        roman %= 100
     }
-    if (d >= 10) {
-        s = d / 10
+    if (roman >= 10) {
+        digit = roman / 10
         when {
-            s == 9 -> result += "XC"
-            s >= 5 -> {
+            digit == 9 -> result += "XC"
+            digit >= 5 -> {
                 result += "L"
-                for (i in 1..s - 5) {
+                for (i in 1..digit - 5) {
                     result += "X"
                 }
             }
-            s == 4 -> result += "XL"
-            s >= 1 -> {
-                for (i in 1..s) {
+            digit == 4 -> result += "XL"
+            digit >= 1 -> {
+                for (i in 1..digit) {
                     result += "X"
                 }
             }
         }
-        d %= 10
+        roman %= 10
     }
-    if (d >= 1) {
-        s = d
+    if (roman >= 1) {
+        digit = roman
         when {
-            s == 9 -> result += "IX"
-            s >= 5 -> {
+            digit == 9 -> result += "IX"
+            digit >= 5 -> {
                 result += "V"
-                for (i in 1..s - 5) {
+                for (i in 1..digit - 5) {
                     result += "I"
                 }
             }
-            s == 4 -> result += "IV"
-            s >= 1 -> {
-                for (i in 1..s) {
+            digit == 4 -> result += "IV"
+            digit >= 1 -> {
+                for (i in 1..digit) {
                     result += "I"
                 }
             }
@@ -430,172 +430,130 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-/**
- *  var result = StringBuilder()
-/*Найдем цифры число n.Например 123456*/
-val r1 = n % 10 /*r1 = 6*/
-val r2 = n / 10 % 10 /*r2 = 5*/
-val r3 = n / 100 % 10 /*r3 = 4*/
-val r4 = n / 1000 % 10 /*r4 = 3*/
-val r5 = n / 10000 % 10 /*r5 = 2*/
-val r6 = n / 100000 % 10 /*r6 = 1*/
-/*cоздаем списки */
-val list1 = listOf("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
-val list2 = listOf("десять ", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать",
-"шестнадцать ", "семнадцать ", "восемнадцать", "девятнадцать ")
-val list3 = listOf("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ",
-"cемьдесят ", "восемьдесят ", "девяносто")
-val list4 = listOf("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ")
-val list5 = listOf("тысяч ", "тысяча ", "тысячи ")
-val list6 = listOf("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
-/*Начнем проверят цифры и используем индекси листов.*/
-if (r6 != 0) result.append(list4[r6])
-if (r5 != 0) {
-if (r5 == 1) result.append(list2[r4])
-else {
-result.append(list3[r5])
-if (r4 != 0) result.append(list6[r4])
-}
-}
-if (r5 == 0 && r4 != 0) result.append(list6[r4])
-if (r6 != 0 || r5 != 0 || r4 != 0) {
-if (r5 != 1 && r4 == 1) result.append(list5[1])
-else if (r5 != 1 && r4 in 1..4) result.append(list5[2])
-else result.append(list5[0])
-}
-if (r3 != 0) result.append(list4[r3])
-if (r2 != 0 && r2 == 1) result.append(list2[r1])
-else result.append(list3[r2])
-if (r1 != 0 && r2 != 1) result.append(list1[r1])
-return result.trim().toString()
- не знаю почему-то на надо вывести "триста семьдесят пять" программа возвращает "триста семьдесят пять",но
- опять не работает хотя в конце eсть trim()
- */
 fun russian(n: Int): String {
-    var s = ""
-    var d = 0
+    var result = ""
+    var d :Int
     var k = n
     /*999 999*/
     if (k > 100000) {
         d = k / 100000
-        if (d == 9) s += "девятьсот"
-        if (d == 8) s += "восемьсот"
-        if (d == 7) s += "семьсот"
-        if (d == 6) s += "шестьсот"
-        if (d == 5) s += "пятьсот"
-        if (d == 4) s += "четыреста"
-        if (d == 3) s += "триста"
-        if (d == 2) s += "двести"
-        if (d == 1) s += "сто"
+        if (d == 9) result += "девятьсот"
+        if (d == 8) result += "восемьсот"
+        if (d == 7) result += "семьсот"
+        if (d == 6) result += "шестьсот"
+        if (d == 5) result += "пятьсот"
+        if (d == 4) result += "четыреста"
+        if (d == 3) result += "триста"
+        if (d == 2) result += "двести"
+        if (d == 1) result += "сто"
         if ((k / 1000) % 10 == 0 && (k / 10000) % 10 == 0) {
-            if (s.isEmpty()) s += ""
-            else if (s.isNotEmpty()) s += " "
-            s += "тысяч"
+            if (result.isEmpty()) result += ""
+            else if (result.isNotEmpty()) result += " "
+            result += "тысяч"
         }
         k %= 100000
     }
     /*99 999*/
     if (k > 10000) {
         d = k / 10000
-        if (s.isEmpty()) s += ""
-        else if (s.isNotEmpty()) s += " "
-        if (d == 9) s += "девяносто"
-        if (d == 8) s += "восемьдесят"
-        if (d == 7) s += "семьдесят"
-        if (d == 6) s += "шестьдесят"
-        if (d == 5) s += "пятьдесят"
-        if (d == 4) s += "сорок"
-        if (d == 3) s += "тридцать"
-        if (d == 2) s += "двадцать"
+        if (result.isEmpty()) result += ""
+        else if (result.isNotEmpty()) result += " "
+        if (d == 9) result += "девяносто"
+        if (d == 8) result += "восемьдесят"
+        if (d == 7) result += "семьдесят"
+        if (d == 6) result += "шестьдесят"
+        if (d == 5) result += "пятьдесят"
+        if (d == 4) result += "сорок"
+        if (d == 3) result += "тридцать"
+        if (d == 2) result += "двадцать"
         if (d == 1) {
             val m = (k / 1000) % 10
-            if (m == 9) s += "девятнадцать тысяч"
-            if (m == 8) s += "восемнадцать тысяч"
-            if (m == 7) s += "семнадцать тысяч"
-            if (m == 6) s += "шестнадцать тысяч"
-            if (m == 5) s += "пятнадцать тысяч"
-            if (m == 4) s += "четырнадцать тысяч"
-            if (m == 3) s += "тринадцать тысяч"
-            if (m == 2) s += "двенадцать тысяч"
-            if (m == 1) s += "одиннадцать тысяч"
-            if (m == 0) s += "десять тысяч"
+            if (m == 9) result += "девятнадцать тысяч"
+            if (m == 8) result += "восемнадцать тысяч"
+            if (m == 7) result += "семнадцать тысяч"
+            if (m == 6) result += "шестнадцать тысяч"
+            if (m == 5) result += "пятнадцать тысяч"
+            if (m == 4) result += "четырнадцать тысяч"
+            if (m == 3) result += "тринадцать тысяч"
+            if (m == 2) result += "двенадцать тысяч"
+            if (m == 1) result += "одиннадцать тысяч"
+            if (m == 0) result += "десять тысяч"
             k %= 1000
         }
-        if (d == 0) s = s
-        if (d > 1 && (k / 1000) % 10 == 0) s += " тысяч"
+        if (d > 1 && (k / 1000) % 10 == 0) result += " тысяч"
         k %= 10000
     }
     /* 9 999*/
     if (k > 1000) {
         d = k / 1000
-        if (s.isEmpty()) s += ""
-        else if (s.isNotEmpty()) s += " "
-        if (d == 9) s += "девять тысяч"
-        if (d == 8) s += "восемь тысяч"
-        if (d == 7) s += "семь тысяч"
-        if (d == 6) s += "шесть тысяч"
-        if (d == 5) s += "пять тысяч"
-        if (d == 4) s += "четыре тысячи"
-        if (d == 3) s += "три тысячи"
-        if (d == 2) s += "две тысячи"
-        if (d == 1) s += "одна тысяча"
+        if (result.isEmpty()) result += ""
+        else if (result.isNotEmpty()) result += " "
+        if (d == 9) result += "девять тысяч"
+        if (d == 8) result += "восемь тысяч"
+        if (d == 7) result += "семь тысяч"
+        if (d == 6) result += "шесть тысяч"
+        if (d == 5) result += "пять тысяч"
+        if (d == 4) result += "четыре тысячи"
+        if (d == 3) result += "три тысячи"
+        if (d == 2) result += "две тысячи"
+        if (d == 1) result += "одна тысяча"
         k %= 1000
     }
     if (k > 100) {
         d = k / 100
-        if (s.isEmpty()) s += ""
-        else if (s.isNotEmpty()) s += " "
-        if (d == 9) s += "девятьсот"
-        if (d == 8) s += "восемьсот"
-        if (d == 7) s += "семьсот"
-        if (d == 6) s += "шестьсот"
-        if (d == 5) s += "пятьсот"
-        if (d == 4) s += "четыреста"
-        if (d == 3) s += "триста"
-        if (d == 2) s += "двести"
-        if (d == 1) s += "сто"
+        if (result.isEmpty()) result += ""
+        else if (result.isNotEmpty()) result += " "
+        if (d == 9) result += "девятьсот"
+        if (d == 8) result += "восемьсот"
+        if (d == 7) result += "семьсот"
+        if (d == 6) result += "шестьсот"
+        if (d == 5) result += "пятьсот"
+        if (d == 4) result += "четыреста"
+        if (d == 3) result += "триста"
+        if (d == 2) result += "двести"
+        if (d == 1) result += "сто"
         k %= 100
     }
     if (k >= 10) {
         d = k / 10
-        if (s.isEmpty()) s += ""
-        else if (s.isNotEmpty()) s += " "
-        if (d == 9) s += "девяносто"
-        if (d == 8) s += "восемьдесят"
-        if (d == 7) s += "семьдесят"
-        if (d == 6) s += "шестьдесят"
-        if (d == 5) s += "пятьдесят"
-        if (d == 4) s += "сорок"
-        if (d == 3) s += "тридцать"
-        if (d == 2) s += "двадцать"
+        if (result.isEmpty()) result += ""
+        else if (result.isNotEmpty()) result += " "
+        if (d == 9) result += "девяносто"
+        if (d == 8) result += "восемьдесят"
+        if (d == 7) result += "семьдесят"
+        if (d == 6) result += "шестьдесят"
+        if (d == 5) result += "пятьдесят"
+        if (d == 4) result += "сорок"
+        if (d == 3) result += "тридцать"
+        if (d == 2) result += "двадцать"
         if (d == 1) {
             val m = k % 10
-            if (m == 9) s += "девятнадцать"
-            if (m == 8) s += "восемнадцать"
-            if (m == 7) s += "семнадцать"
-            if (m == 6) s += "шестнадцать"
-            if (m == 5) s += "пятнадцать"
-            if (m == 4) s += "четырнадцать"
-            if (m == 3) s += "тринадцать"
-            if (m == 2) s += "двенадцать"
-            if (m == 1) s += "одиннадцать"
-            if (m == 0) s += "десять"
+            if (m == 9) result += "девятнадцать"
+            if (m == 8) result += "восемнадцать"
+            if (m == 7) result += "семнадцать"
+            if (m == 6) result += "шестнадцать"
+            if (m == 5) result += "пятнадцать"
+            if (m == 4) result += "четырнадцать"
+            if (m == 3) result += "тринадцать"
+            if (m == 2) result += "двенадцать"
+            if (m == 1) result += "одиннадцать"
+            if (m == 0) result += "десять"
             k = 0
         }
         k %= 10
     }
     if ((k <= 9)) {
-        if (s.isEmpty()) s += ""
-        else if (s.isNotEmpty()) s += " "
-        if (k == 9) s += "девять"
-        if (k == 8) s += "восемь"
-        if (k == 7) s += "семь"
-        if (k == 6) s += "шесть"
-        if (k == 5) s += "пять"
-        if (k == 4) s += "четыре"
-        if (k == 3) s += "три"
-        if (k == 2) s += "два"
-        if (k == 1) s += "один"
+        if (result.isEmpty()) result += ""
+        else if (result.isNotEmpty()) result += " "
+        if (k == 9) result += "девять"
+        if (k == 8) result += "восемь"
+        if (k == 7) result += "семь"
+        if (k == 6) result += "шесть"
+        if (k == 5) result += "пять"
+        if (k == 4) result += "четыре"
+        if (k == 3) result += "три"
+        if (k == 2) result += "два"
+        if (k == 1) result += "один"
     }
-    return s.trim()
+    return result.trim()
 }

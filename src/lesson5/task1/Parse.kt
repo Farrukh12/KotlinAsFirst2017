@@ -101,26 +101,27 @@ fun dateDigitToStr(digital: String): String {
     val date = digital.split(".")
     if (date.size != 3) return ""
     var result = ""
-    if (date[1] == "01") result += "января"
-    if (date[1] == "02") result += "февраля"
-    if (date[1] == "03") result += "марта"
-    if (date[1] == "04") result += "апреля"
-    if (date[1] == "05") result += "мая"
-    if (date[1] == "06") result += "июня"
-    if (date[1] == "07") result += "июля"
-    if (date[1] == "08") result += "августа"
-    if (date[1] == "09") result += "сентября"
-    if (date[1] == "10") result += "октября"
-    if (date[1] == "11") result += "ноября"
-    if (date[1] == "12") result += "декабря"
-    if (date[1] == "") return ""
+    when {
+    date[1] == "01" -> result += "января"
+    date[1] == "02" -> result += "февраля"
+    date[1] == "03" -> result += "марта"
+    date[1] == "04" -> result += "апреля"
+    date[1] == "05" -> result += "мая"
+    date[1] == "06" -> result += "июня"
+    date[1] == "07" -> result += "июля"
+    date[1] == "08" -> result += "августа"
+    date[1] == "09" -> result += "сентября"
+    date[1] == "10" -> result += "октября"
+    date[1] == "11" -> result += "ноября"
+    date[1] == "12" -> result += "декабря"
+    date[1] == "" -> return ""
+         }
     return "${date[0].toInt()} $result ${date[2]}"
 }
 
 /**
  * Средняя
- *
- * Номер телефона задан строкой вида "+7 (921) 123-45-67".
+ *Номер телефона задан строкой вида "+7 (921) 123-45-67".
  * Префикс (+7) может отсутствовать, код города (в скобках) также может отсутствовать.
  * Может присутствовать неограниченное количество пробелов и чёрточек,
  * например, номер 12 --  34- 5 -- 67 -98 тоже следует считать легальным.
@@ -132,7 +133,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
     if (phone == " ") return  ""
-    val s = setOf(' ', '-', '(', ')')
+    val char = setOf(' ', '-', '(', ')')
     val result = StringBuilder()
     val list = StringBuilder(phone.trim())
     if (list[0] == '+') {
@@ -142,7 +143,7 @@ fun flattenPhoneNumber(phone: String): String {
     }
     for (i in list) {
         if (i.isDigit()) result.append(i)
-        if (!(i.isDigit() || s.contains(i))) return ""
+        if (!(i.isDigit() || char.contains(i))) return ""
 
     }
     return result.toString()
@@ -241,7 +242,6 @@ fun firstDuplicateIndex(str: String): Int {
         prev = i
     }
     return -1
-
 }
 
 /**
@@ -258,7 +258,6 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     if (description == "") return ""
     val list = description.split("; ")
-    val newlist = mutableListOf<String>()
     var result = -1.0
     var answer = ""
     try {

@@ -234,12 +234,12 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val list = str.split(" ")
-    var prev = ""
+    var word = ""
     var index = -1
     for (i in list) {
-        if (prev.toLowerCase() == i.toLowerCase()) return index
-        index += prev.length + 1
-        prev = i
+        if (word.toLowerCase() == i.toLowerCase()) return index
+        index += str.length + 1
+        word = i
     }
     return -1
 }
@@ -287,7 +287,24 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (roman.isEmpty()) return -1
+    val arabnumber = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val romannumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val number = StringBuilder(roman)
+    var index = 0
+    var result = 0
+    while(number.isNotEmpty()) {
+        if (number.indexOf(romannumber[index]) == 0) {
+            result += arabnumber[index]
+            number.delete(0, romannumber[index].length)
+        } else {
+            index++
+        }
+        if (index == romannumber.size) return -1
+    }
+    return result
+}
 
 /**
  * Очень сложная

@@ -432,42 +432,42 @@ fun roman(n: Int): String {
  */
 fun russian(n: Int): String {
     var result = ""
-    var d :Int
-    var k = n
+    var digit :Int
+    var number = n
     /*999 999*/
-    if (k > 100000) {
-        d = k / 100000
-        if (d == 9) result += "девятьсот"
-        if (d == 8) result += "восемьсот"
-        if (d == 7) result += "семьсот"
-        if (d == 6) result += "шестьсот"
-        if (d == 5) result += "пятьсот"
-        if (d == 4) result += "четыреста"
-        if (d == 3) result += "триста"
-        if (d == 2) result += "двести"
-        if (d == 1) result += "сто"
-        if ((k / 1000) % 10 == 0 && (k / 10000) % 10 == 0) {
+    if (number > 100000) {
+        digit = number / 100000
+        if (digit == 9) result += "девятьсот"
+        if (digit == 8) result += "восемьсот"
+        if (digit == 7) result += "семьсот"
+        if (digit == 6) result += "шестьсот"
+        if (digit == 5) result += "пятьсот"
+        if (digit == 4) result += "четыреста"
+        if (digit == 3) result += "триста"
+        if (digit == 2) result += "двести"
+        if (digit == 1) result += "сто"
+        if ((number / 1000) % 10 == 0 && (number / 10000) % 10 == 0) {
             if (result.isEmpty()) result += ""
             else if (result.isNotEmpty()) result += " "
             result += "тысяч"
         }
-        k %= 100000
+        number %= 100000
     }
     /*99 999*/
-    if (k > 10000) {
-        d = k / 10000
+    if (number > 10000) {
+        digit = number / 10000
         if (result.isEmpty()) result += ""
         else if (result.isNotEmpty()) result += " "
-        if (d == 9) result += "девяносто"
-        if (d == 8) result += "восемьдесят"
-        if (d == 7) result += "семьдесят"
-        if (d == 6) result += "шестьдесят"
-        if (d == 5) result += "пятьдесят"
-        if (d == 4) result += "сорок"
-        if (d == 3) result += "тридцать"
-        if (d == 2) result += "двадцать"
-        if (d == 1) {
-            val m = (k / 1000) % 10
+        if (digit == 9) result += "девяносто"
+        if (digit == 8) result += "восемьдесят"
+        if (digit == 7) result += "семьдесят"
+        if (digit == 6) result += "шестьдесят"
+        if (digit == 5) result += "пятьдесят"
+        if (digit == 4) result += "сорок"
+        if (digit == 3) result += "тридцать"
+        if (digit == 2) result += "двадцать"
+        if (digit == 1) {
+            val m = (number / 1000) % 10
             if (m == 9) result += "девятнадцать тысяч"
             if (m == 8) result += "восемнадцать тысяч"
             if (m == 7) result += "семнадцать тысяч"
@@ -478,56 +478,56 @@ fun russian(n: Int): String {
             if (m == 2) result += "двенадцать тысяч"
             if (m == 1) result += "одиннадцать тысяч"
             if (m == 0) result += "десять тысяч"
-            k %= 1000
+            number %= 1000
         }
-        if (d > 1 && (k / 1000) % 10 == 0) result += " тысяч"
-        k %= 10000
+        if (digit > 1 && (number / 1000) % 10 == 0) result += " тысяч"
+        number %= 10000
     }
     /* 9 999*/
-    if (k > 1000) {
-        d = k / 1000
+    if (number > 1000) {
+        digit = number / 1000
         if (result.isEmpty()) result += ""
         else if (result.isNotEmpty()) result += " "
-        if (d == 9) result += "девять тысяч"
-        if (d == 8) result += "восемь тысяч"
-        if (d == 7) result += "семь тысяч"
-        if (d == 6) result += "шесть тысяч"
-        if (d == 5) result += "пять тысяч"
-        if (d == 4) result += "четыре тысячи"
-        if (d == 3) result += "три тысячи"
-        if (d == 2) result += "две тысячи"
-        if (d == 1) result += "одна тысяча"
-        k %= 1000
+        if (digit == 9) result += "девять тысяч"
+        if (digit == 8) result += "восемь тысяч"
+        if (digit == 7) result += "семь тысяч"
+        if (digit == 6) result += "шесть тысяч"
+        if (digit == 5) result += "пять тысяч"
+        if (digit == 4) result += "четыре тысячи"
+        if (digit == 3) result += "три тысячи"
+        if (digit == 2) result += "две тысячи"
+        if (digit == 1) result += "одна тысяча"
+        number %= 1000
     }
-    if (k > 100) {
-        d = k / 100
+    if (number > 100) {
+        digit = number / 100
         if (result.isEmpty()) result += ""
         else if (result.isNotEmpty()) result += " "
-        if (d == 9) result += "девятьсот"
-        if (d == 8) result += "восемьсот"
-        if (d == 7) result += "семьсот"
-        if (d == 6) result += "шестьсот"
-        if (d == 5) result += "пятьсот"
-        if (d == 4) result += "четыреста"
-        if (d == 3) result += "триста"
-        if (d == 2) result += "двести"
-        if (d == 1) result += "сто"
-        k %= 100
+        if (digit == 9) result += "девятьсот"
+        if (digit == 8) result += "восемьсот"
+        if (digit == 7) result += "семьсот"
+        if (digit == 6) result += "шестьсот"
+        if (digit == 5) result += "пятьсот"
+        if (digit == 4) result += "четыреста"
+        if (digit == 3) result += "триста"
+        if (digit == 2) result += "двести"
+        if (digit == 1) result += "сто"
+        number %= 100
     }
-    if (k >= 10) {
-        d = k / 10
+    if (number >= 10) {
+        digit = number / 10
         if (result.isEmpty()) result += ""
         else if (result.isNotEmpty()) result += " "
-        if (d == 9) result += "девяносто"
-        if (d == 8) result += "восемьдесят"
-        if (d == 7) result += "семьдесят"
-        if (d == 6) result += "шестьдесят"
-        if (d == 5) result += "пятьдесят"
-        if (d == 4) result += "сорок"
-        if (d == 3) result += "тридцать"
-        if (d == 2) result += "двадцать"
-        if (d == 1) {
-            val m = k % 10
+        if (digit == 9) result += "девяносто"
+        if (digit == 8) result += "восемьдесят"
+        if (digit == 7) result += "семьдесят"
+        if (digit == 6) result += "шестьдесят"
+        if (digit == 5) result += "пятьдесят"
+        if (digit == 4) result += "сорок"
+        if (digit == 3) result += "тридцать"
+        if (digit == 2) result += "двадцать"
+        if (digit == 1) {
+            val m = number % 10
             if (m == 9) result += "девятнадцать"
             if (m == 8) result += "восемнадцать"
             if (m == 7) result += "семнадцать"
@@ -538,22 +538,22 @@ fun russian(n: Int): String {
             if (m == 2) result += "двенадцать"
             if (m == 1) result += "одиннадцать"
             if (m == 0) result += "десять"
-            k = 0
+            number = 0
         }
-        k %= 10
+        number %= 10
     }
-    if ((k <= 9)) {
+    if ((number <= 9)) {
         if (result.isEmpty()) result += ""
         else if (result.isNotEmpty()) result += " "
-        if (k == 9) result += "девять"
-        if (k == 8) result += "восемь"
-        if (k == 7) result += "семь"
-        if (k == 6) result += "шесть"
-        if (k == 5) result += "пять"
-        if (k == 4) result += "четыре"
-        if (k == 3) result += "три"
-        if (k == 2) result += "два"
-        if (k == 1) result += "один"
+        if (number == 9) result += "девять"
+        if (number == 8) result += "восемь"
+        if (number == 7) result += "семь"
+        if (number == 6) result += "шесть"
+        if (number == 5) result += "пять"
+        if (number == 4) result += "четыре"
+        if (number == 3) result += "три"
+        if (number == 2) result += "два"
+        if (number == 1) result += "один"
     }
     return result.trim()
 }

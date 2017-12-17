@@ -286,11 +286,11 @@ fun convertToString(n: Int, base: Int): String {
     if (n == 0) return "0"
     var convert: String = ""
     val changebase = base
-    val n = ('a'..'z').toList()
+    val char = ('a'..'z').toList()
     while (string > 0) {
         if (string % changebase > 9) {
             for (i in 10..35) {
-                if (string % changebase == i) convert += n[i - 10]
+                if (string % changebase == i) convert += char[i - 10]
             }
         } else
             convert += string % changebase
@@ -432,7 +432,7 @@ fun roman(n: Int): String {
  */
 fun russian(n: Int): String {
     var result = ""
-    var digit :Int
+    var digit: Int
     var number = n
     /*999 999*/
     if (number > 100000) {

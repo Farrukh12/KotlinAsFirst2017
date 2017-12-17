@@ -37,7 +37,13 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2 || notation[1] - '0' !in 1..8) throw IllegalArgumentException("")
+    val row = notation[1] - '0'
+    val column = notation[0] - ('a' - 1)
+    if (column !in 1..8) throw IllegalArgumentException("")
+    return Square(column, row)
+}
 
 /**
  * Простая
@@ -62,7 +68,14 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!(start.inside() && end.inside())) throw IllegalArgumentException("")
+    return when {
+        start == end -> 0
+        start.row == end.row || start.column == end.column -> 1
+        else -> 2
+    }
+}
 
 /**
  * Средняя

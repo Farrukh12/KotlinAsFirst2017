@@ -117,7 +117,7 @@ fun abs(v: List<Double>): Double {
     for (element in v) {
         s += Math.pow(element, 2.0)
     }
-    return Math.sqrt(Math.abs(s))
+    return Math.sqrt(s)
 }
 
 /**
@@ -143,13 +143,9 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var sum = 0.0
-    for (element in list) {
-        sum += element
-    }
-    val average = sum / list.size
+    val average = mean(list)
     for (i in 0 until list.size) {
-        list[i] = list[i] - average
+        list[i] -= average
     }
     return list
 }
@@ -235,22 +231,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var result = ""
-    var f = 2
-    var number = n
-    var k = 0
-    while (number > 1) {
-        while (number % f == 0) {
-            k++
-            if (k == 1) result += "$f"
-            else result += "*$f"
-            number /= f
-        }
-        f++
-    }
-    return result
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -263,12 +244,10 @@ fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var number = n
     if (number == 0) result.add(0)
-    var remainder: Int
-    val s2 = base
     while (number > 0) {
-        remainder = number % s2
+        val remainder = number % base
         result.add(remainder)
-        number /= s2
+        number /= base
     }
     return result.reversed()
 }
@@ -282,21 +261,15 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var string = n /* Под переменной string задаем число n*/
-    if (n == 0) return "0"
-    var convert: String = ""
-    val changebase = base
-    val char = ('a'..'z').toList()
-    while (string > 0) {
-        if (string % changebase > 9) {
-            for (i in 10..35) {
-                if (string % changebase == i) convert += char[i - 10]
-            }
-        } else
-            convert += string % changebase
-        string /= changebase
+    val con = convert(n, base) /*con = convert*/
+    val result = StringBuilder()
+    for (i in con) {
+        if (i < 10) result.append(i)
+        else {
+            result.append('a'.plus(i - 10))
+        }
     }
-    return convert.reversed()
+    return result.toString()
 }
 
 /**
@@ -324,21 +297,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val number = str.reversed()
-    var result = 0
-    for ((index, element) in number.withIndex()) {
-        var k1 = 1 /*k1: 1, 2, 3, 4, 5, 6, 7, 8, 9*/
-        for (j in '1'..'9') {
-            if (number[index] == j) result += k1 * Math.pow(base.toDouble(), index.toDouble()).toInt()
-            k1++
-        }
-        var k2 = 10 /*k2 : a = 10, b = 11, c = 12, d = 13, e = 14, f = 15*/
-        for (char in 'a'..'z') {
-            if (number[index] == char) result += k2 * Math.pow(base.toDouble(), index.toDouble()).toInt()
-            k2++
+    val digits = mutableListOf<Int>()
+    for (i in str) {
+        if (i.isDigit()) digits.add(i.minus('0'))
+        else {
+            digits.add(i.minus('a') + 10)
         }
     }
-    return result
+    return decimal(digits, base)
 }
 
 /**
@@ -350,77 +316,21 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    /*В переменную d в задаем n, a*/
-    var roman = n
-    var digit: Int
-    var result = ""
-    //*4567
-    if (roman >= 1000) {
-        digit = roman / 1000
-        for (i in 1..digit) {
-            result += "M"
-        }
-        roman %= 1000
+    val number1 = n / 1000
+    val number2 = n / 100 % 10
+    val number3 = n / 10 % 10
+    val number4 = n % 10
+    val result = StringBuilder()
+    val romannumber1 = listOf("C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
+    val romannumber2 = listOf("X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC")
+    val romannumber3 = listOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")
+    if (number1 != 0) {
+        for (i in 1..number1) result.append("M")
     }
-    //*467
-    if (roman >= 100) {
-        digit = roman / 100
-        when {
-            digit == 9 -> result += "CM"
-            digit >= 5 -> {
-                result += "D"
-                for (i in 1..digit - 5) {
-                    result += "C"
-                }
-            }
-            digit == 4 -> result += "CD"
-            digit >= 1 -> {
-                for (i in 1..digit) {
-                    result += "C"
-                }
-
-            }
-        }
-        roman %= 100
-    }
-    if (roman >= 10) {
-        digit = roman / 10
-        when {
-            digit == 9 -> result += "XC"
-            digit >= 5 -> {
-                result += "L"
-                for (i in 1..digit - 5) {
-                    result += "X"
-                }
-            }
-            digit == 4 -> result += "XL"
-            digit >= 1 -> {
-                for (i in 1..digit) {
-                    result += "X"
-                }
-            }
-        }
-        roman %= 10
-    }
-    if (roman >= 1) {
-        digit = roman
-        when {
-            digit == 9 -> result += "IX"
-            digit >= 5 -> {
-                result += "V"
-                for (i in 1..digit - 5) {
-                    result += "I"
-                }
-            }
-            digit == 4 -> result += "IV"
-            digit >= 1 -> {
-                for (i in 1..digit) {
-                    result += "I"
-                }
-            }
-        }
-    }
-    return result
+    if (number2 != 0) result.append(romannumber1[number2 - 1])
+    if (number3 != 0) result.append(romannumber2[number3 - 1])
+    if (number4 != 0) result.append(romannumber3[number4 - 1])
+    return result.toString()
 }
 
 /**
@@ -431,129 +341,39 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var result = ""
-    var digit: Int
-    var number = n
-    /*999 999*/
-    if (number > 100000) {
-        digit = number / 100000
-        if (digit == 9) result += "девятьсот"
-        if (digit == 8) result += "восемьсот"
-        if (digit == 7) result += "семьсот"
-        if (digit == 6) result += "шестьсот"
-        if (digit == 5) result += "пятьсот"
-        if (digit == 4) result += "четыреста"
-        if (digit == 3) result += "триста"
-        if (digit == 2) result += "двести"
-        if (digit == 1) result += "сто"
-        if ((number / 1000) % 10 == 0 && (number / 10000) % 10 == 0) {
-            if (result.isEmpty()) result += ""
-            else if (result.isNotEmpty()) result += " "
-            result += "тысяч"
-        }
-        number %= 100000
+    val result = StringBuilder()
+/*Найдем цифры число n.Например 123456*/
+    val r1 = n % 10 /*r1 = 6*/
+    val r2 = n / 10 % 10 /*r2 = 5*/
+    val r3 = n / 100 % 10 /*r3 = 4*/
+    val r4 = n / 1000 % 10 /*r4 = 3*/
+    val r5 = n / 10000 % 10 /*r5 = 2*/
+    val r6 = n / 100000 % 10 /*r6 = 1*/
+/*cоздаем списки */
+    val list1 = listOf("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+    val list2 = listOf("десять ", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать",
+            "шестнадцать ", "семнадцать ", "восемнадцать", "девятнадцать ")
+    val list3 = listOf("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ",
+            "семьдесят ", "восемьдесят ", "девяносто")
+    val list4 = listOf("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ", "восемьсот ", "девятьсот ")
+    val list5 = listOf("тысяч ", "тысяча ", "тысячи ")
+    val list6 = listOf("", "одна ", "две ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+/*Начнем проверят цифры и используем индекси листов.*/
+    result.append(list4[r6])
+    if (r5 != 0) {
+        if (r5 == 1 && r4 != 0) result.append(list2[r4] + list5[0])
+        if (r5 != 1) result.append(list3[r5])
+        if (r5 != 1 && r4 == 0) result.append(list5[0])
     }
-    /*99 999*/
-    if (number > 10000) {
-        digit = number / 10000
-        if (result.isEmpty()) result += ""
-        else if (result.isNotEmpty()) result += " "
-        if (digit == 9) result += "девяносто"
-        if (digit == 8) result += "восемьдесят"
-        if (digit == 7) result += "семьдесят"
-        if (digit == 6) result += "шестьдесят"
-        if (digit == 5) result += "пятьдесят"
-        if (digit == 4) result += "сорок"
-        if (digit == 3) result += "тридцать"
-        if (digit == 2) result += "двадцать"
-        if (digit == 1) {
-            val m = (number / 1000) % 10
-            if (m == 9) result += "девятнадцать тысяч"
-            if (m == 8) result += "восемнадцать тысяч"
-            if (m == 7) result += "семнадцать тысяч"
-            if (m == 6) result += "шестнадцать тысяч"
-            if (m == 5) result += "пятнадцать тысяч"
-            if (m == 4) result += "четырнадцать тысяч"
-            if (m == 3) result += "тринадцать тысяч"
-            if (m == 2) result += "двенадцать тысяч"
-            if (m == 1) result += "одиннадцать тысяч"
-            if (m == 0) result += "десять тысяч"
-            number %= 1000
-        }
-        if (digit > 1 && (number / 1000) % 10 == 0) result += " тысяч"
-        number %= 10000
+    if (r5 != 1 && r4 != 0) {
+        if (r4 == 1) result.append(list6[r4] + list5[1])
+        if (r4 in 2..4) result.append(list6[r4] + list5[2])
+        if (r4 in 5..9) result.append(list6[r4] + list5[0])
     }
-    /* 9 999*/
-    if (number > 1000) {
-        digit = number / 1000
-        if (result.isEmpty()) result += ""
-        else if (result.isNotEmpty()) result += " "
-        if (digit == 9) result += "девять тысяч"
-        if (digit == 8) result += "восемь тысяч"
-        if (digit == 7) result += "семь тысяч"
-        if (digit == 6) result += "шесть тысяч"
-        if (digit == 5) result += "пять тысяч"
-        if (digit == 4) result += "четыре тысячи"
-        if (digit == 3) result += "три тысячи"
-        if (digit == 2) result += "две тысячи"
-        if (digit == 1) result += "одна тысяча"
-        number %= 1000
-    }
-    if (number > 100) {
-        digit = number / 100
-        if (result.isEmpty()) result += ""
-        else if (result.isNotEmpty()) result += " "
-        if (digit == 9) result += "девятьсот"
-        if (digit == 8) result += "восемьсот"
-        if (digit == 7) result += "семьсот"
-        if (digit == 6) result += "шестьсот"
-        if (digit == 5) result += "пятьсот"
-        if (digit == 4) result += "четыреста"
-        if (digit == 3) result += "триста"
-        if (digit == 2) result += "двести"
-        if (digit == 1) result += "сто"
-        number %= 100
-    }
-    if (number >= 10) {
-        digit = number / 10
-        if (result.isEmpty()) result += ""
-        else if (result.isNotEmpty()) result += " "
-        if (digit == 9) result += "девяносто"
-        if (digit == 8) result += "восемьдесят"
-        if (digit == 7) result += "семьдесят"
-        if (digit == 6) result += "шестьдесят"
-        if (digit == 5) result += "пятьдесят"
-        if (digit == 4) result += "сорок"
-        if (digit == 3) result += "тридцать"
-        if (digit == 2) result += "двадцать"
-        if (digit == 1) {
-            val m = number % 10
-            if (m == 9) result += "девятнадцать"
-            if (m == 8) result += "восемнадцать"
-            if (m == 7) result += "семнадцать"
-            if (m == 6) result += "шестнадцать"
-            if (m == 5) result += "пятнадцать"
-            if (m == 4) result += "четырнадцать"
-            if (m == 3) result += "тринадцать"
-            if (m == 2) result += "двенадцать"
-            if (m == 1) result += "одиннадцать"
-            if (m == 0) result += "десять"
-            number = 0
-        }
-        number %= 10
-    }
-    if ((number <= 9)) {
-        if (result.isEmpty()) result += ""
-        else if (result.isNotEmpty()) result += " "
-        if (number == 9) result += "девять"
-        if (number == 8) result += "восемь"
-        if (number == 7) result += "семь"
-        if (number == 6) result += "шесть"
-        if (number == 5) result += "пять"
-        if (number == 4) result += "четыре"
-        if (number == 3) result += "три"
-        if (number == 2) result += "два"
-        if (number == 1) result += "один"
-    }
-    return result.trim()
+    if (r6 != 0 && r5 == 0 && r4 == 0) result.append(list5[0])
+    result.append(list4[r3])
+    if (r2 != 1) result.append(list3[r2])
+    if (r2 == 1) result.append(list2[r1])
+    if (r2 != 1 && r1 != 0) result.append(list1[r1])
+    return result.trim().toString()
 }

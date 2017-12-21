@@ -35,10 +35,10 @@ fun isNumberHappy(number: Int): Boolean {
  * (x1 == x2 || y1 == y2 || Math.abs(x1 - x2) == Math.abs(y1 - y2))
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val queeninverhor = (x1 == x2 || y1 == y2)
-    val queenbydiagonally = (Math.abs(x1 - x2) == Math.abs(y1 - y2))
+    val queenInverhor = (x1 == x2 || y1 == y2)
+    val queenBydiagonally = (Math.abs(x1 - x2) == Math.abs(y1 - y2))
     return when {
-        queeninverhor || queenbydiagonally -> true
+        queenInverhor || queenBydiagonally -> true
         else -> false
     }
 }

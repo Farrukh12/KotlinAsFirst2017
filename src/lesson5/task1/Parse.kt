@@ -70,25 +70,16 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val changes = str.split(" ")
     if (changes.size != 3) return ""
-    val result = ""
-    val month = when (changes[1]) {
-        "января" -> "01"
-        "февраля" -> "02"
-        "марта" -> "03"
-        "апреля" -> "04"
-        "мая" -> "05"
-        "июня" -> "06"
-        "июля" -> "07"
-        "августа" -> "08"
-        "сентября" -> "09"
-        "октября" -> "10"
-        "ноября" -> "11"
-        "декабря" -> "12"
-        else -> ""
+    val monthString = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val monthDigit = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+    if (monthString.contains(changes[1])) {
+        return "${twoDigitStr(changes[0].toInt())}.${monthDigit[monthString.indexOf(changes[1])]}.${changes[2]}"
     }
-    if (month == "") return ""
-    return "${twoDigitStr(changes[0].toInt())}.$month.${changes[2]}"
+    return ""
 }
+
+
 
 /**
  * Средняя
@@ -97,26 +88,18 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
+fun oneDigitStr(str: String) =  if (str[0].toString() == "0")  str[1].toString() else str
+
 fun dateDigitToStr(digital: String): String {
-    val date = digital.split(".")
-    if (date.size != 3) return ""
-    var result = ""
-    when {
-    date[1] == "01" -> result += "января"
-    date[1] == "02" -> result += "февраля"
-    date[1] == "03" -> result += "марта"
-    date[1] == "04" -> result += "апреля"
-    date[1] == "05" -> result += "мая"
-    date[1] == "06" -> result += "июня"
-    date[1] == "07" -> result += "июля"
-    date[1] == "08" -> result += "августа"
-    date[1] == "09" -> result += "сентября"
-    date[1] == "10" -> result += "октября"
-    date[1] == "11" -> result += "ноября"
-    date[1] == "12" -> result += "декабря"
-    date[1] == "" -> return ""
-         }
-    return "${date[0].toInt()} $result ${date[2]}"
+    val changes = digital.split(".")
+    if (changes.size != 3) return ""
+    val monthString = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val monthDigit = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+    if (monthDigit.contains(changes[1])) {
+        return "${oneDigitStr(changes[0])} ${monthString[monthDigit.indexOf(changes[1])]} ${changes[2]}"
+    }
+    return ""
 }
 
 /**
@@ -132,7 +115,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
-    if (phone == " ") return  ""
+    if (phone == " ") return ""
     val char = setOf(' ', '-', '(', ')')
     val result = StringBuilder()
     val list = StringBuilder(phone.trim())
@@ -190,8 +173,8 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     val list = mutableListOf<String>()
-    for (i in 1..parts.size-1  step 2) {
-        if (parts[i] == "+") list.add(parts[i-1])
+    for (i in 1..parts.size - 1 step 2) {
+        if (parts[i] == "+") list.add(parts[i - 1])
     }
     return list.map { it.toInt() }.max() ?: -1
 }
@@ -238,7 +221,7 @@ fun firstDuplicateIndex(str: String): Int {
     var index = -1
     for (i in list) {
         if (word.toLowerCase() == i.toLowerCase()) return index
-        index += str.length + 1
+        index += word.length + 1
         word = i
     }
     return -1
@@ -265,14 +248,14 @@ fun mostExpensive(description: String): String {
             val price = i.split(" ")
             for ((j, e) in price.withIndex()) {
                 if (j == 1) {
-                    result = maxOf(e.toDouble(),result)
+                    result = maxOf(e.toDouble(), result)
                 }
                 if (result.toString() in i) answer = price[0]
             }
         }
         return answer
-    } catch (e:NumberFormatException){
-        return  ""
+    } catch (e: NumberFormatException) {
+        return ""
     }
 }
 
@@ -289,19 +272,19 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     if (roman.isEmpty()) return -1
-    val arabnumber = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val romannumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val arabNumber = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val romanNumber = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     val number = StringBuilder(roman)
     var index = 0
     var result = 0
-    while(number.isNotEmpty()) {
-        if (number.indexOf(romannumber[index]) == 0) {
-            result += arabnumber[index]
-            number.delete(0, romannumber[index].length)
+    while (number.isNotEmpty()) {
+        if (number.indexOf(romanNumber[index]) == 0) {
+            result += arabNumber[index]
+            number.delete(0, romanNumber[index].length)
         } else {
             index++
         }
-        if (index == romannumber.size) return -1
+        if (index == romanNumber.size) return -1
     }
     return result
 }

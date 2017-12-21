@@ -106,10 +106,10 @@ fun lcm(m: Int, n: Int): Int {
     var max = maxOf(m, n)
     var min = minOf(m, n)
     if (max % min == 0) return max
-    while (max % min != 0){
-        val min1 = min
+    while (max % min != 0) {
+        val temp = min
         min = max % min
-        max = min1
+        max = temp
     }
     return m * n / min
 }
@@ -176,7 +176,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     if (m == 0 && n == 0) return true
-    while (k >= 0) {
+    while (k <= m) {
         k++
         if (Math.sqrt(m.toDouble()) <= k && k <= Math.sqrt(n.toDouble())) return true
     }
@@ -256,7 +256,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = n.toString() == n.toString().reversed()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 
 /**
@@ -293,6 +293,7 @@ fun squareSequenceDigit(n: Int): Int {
     num = Math.abs(num)
     return count * count / Math.pow(10.0, num.toDouble()).toInt() % 10
 }
+
 /**
  * Сложная
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
